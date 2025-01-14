@@ -11,6 +11,8 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { router } from "expo-router";
 import FormField from "@/components/FormField";
+import useVideoStore from "@/context/videoStore";
+
 import * as ImagePicker from "expo-image-picker";
 import { Video, ResizeMode } from "expo-av";
 
@@ -39,6 +41,8 @@ type FormData = z.infer<typeof schema>;
 const UploadVideo = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
+
+    const { addVideo } = useVideoStore();
 
     const {
         control,
@@ -90,8 +94,7 @@ const UploadVideo = () => {
         try {
             setIsLoading(true);
 
-            // todo: upload video to async storage
-            console.log("Uploading data:", data);
+            addVideo(data);
 
             Alert.alert("Success", "Memory uploaded successfully!", [
                 {

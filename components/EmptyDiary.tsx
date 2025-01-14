@@ -5,7 +5,7 @@ import empty from "../assets/images/empty.png";
 
 const EmptyDiary = () => {
     return (
-        <View className="flex items-center justify-center border-2 border-black">
+        <View className="flex items-center justify-center">
             <Image
                 source={empty}
                 resizeMode="contain"

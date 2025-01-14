@@ -8,21 +8,20 @@ import {
 } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-// import { Video } from "expo-av";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import useVideoStore from "@/context/videoStore";
+import { Video, ResizeMode } from "expo-av";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const VideoDetails = () => {
     const { id } = useLocalSearchParams();
+    const { getVideoById } = useVideoStore();
+    const videoDetails = getVideoById(id as string);
 
-    const videoDetails = {
-        id: id,
-        name: "Beautiful Memory",
-        desc: "This is a wonderful memory from our trip to the mountains last summer. The weather was perfect and the views were breathtaking.",
-        date: "January 25, 2025",
-        video: "path_to_video",
-    };
+    if (!videoDetails) {
+        return null;
+    }
 
     return (
         <SafeAreaView className="flex-1 bg-dark-background">
@@ -41,22 +40,17 @@ const VideoDetails = () => {
                 </TouchableOpacity>
             </View>
 
-            <View style={{ height: SCREEN_HEIGHT * 0.6 }} className="w-full ">
-                <Image
-                    source={require("../../assets/images/react-logo.png")}
-                    className="w-full h-full"
-                    resizeMode="cover"
-                />
-                <TouchableOpacity
-                    className="absolute inset-0 items-center justify-center"
-                    onPress={() => {
-                        /**/
+            <View style={{ height: SCREEN_HEIGHT * 0.6 }} className="w-full">
+                <Video
+                    source={{ uri: videoDetails.videoUri }}
+                    style={{
+                        width: "100%",
+                        height: "100%",
                     }}
-                >
-                    <View className="w-16 h-16 rounded-full bg-secondary/80 items-center justify-center">
-                        <FontAwesome name="play" size={24} color="white" />
-                    </View>
-                </TouchableOpacity>
+                    useNativeControls
+                    resizeMode={ResizeMode.CONTAIN}
+                    shouldPlay={false}
+                />
             </View>
 
             <ScrollView className="flex-1">

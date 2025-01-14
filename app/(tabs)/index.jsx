@@ -14,17 +14,12 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import VideoCard from "../../components/VideoCard";
 import EmptyDiary from "../../components/EmptyDiary";
 import { router } from "expo-router";
-const videoData = [
-    { id: "1", name: "ilk video", desc: "deneme 1 2", video: "ilk videomuz" },
-    { id: "2", name: "ilk video", desc: "deneme 1 2", video: "ilk videomuz" },
-    { id: "3", name: "ilk video", desc: "deneme 1 2", video: "ilk videomuz" },
-    { id: "4", name: "ilk video", desc: "deneme 1 2", video: "ilk videomuz" },
-    { id: "5", name: "ilk video", desc: "deneme 1 2", video: "ilk videomuz" },
-];
+import useVideoStore from "@/context/videoStore";
 
 const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const Home = () => {
+    const { videos } = useVideoStore();
     return (
         <SafeAreaProvider>
             <SafeAreaView className="bg-dark-background h-full">
@@ -51,7 +46,7 @@ const Home = () => {
                 </View>
                 <View className="w-full h-[90%]">
                     <FlatList
-                        data={videoData}
+                        data={videos}
                         renderItem={({ item }) => <VideoCard video={item} />}
                         keyExtractor={(item) => item.id}
                         ListEmptyComponent={() => <EmptyDiary />}

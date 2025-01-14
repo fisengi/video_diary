@@ -1,24 +1,23 @@
-import { useState } from "react";
-import { ResizeMode, Video } from "expo-av";
+import { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { router } from "expo-router";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import * as VideoThumbnails from "expo-video-thumbnails";
 
 interface VideoProps {
     video: {
         id: string;
         name: string;
         desc: string;
-        video: string;
+        videoUri: string;
+        date?: string;
+        thumbnail: string;
     };
 }
 
 const VideoCard = ({ video }: VideoProps) => {
-    const [play, setPlay] = useState(false);
-
     return (
-        <View className="w-full h-[500px] flex flex-col items-center justify-center p-4  rounded-xl">
+        <View className="w-full h-[500px] flex flex-col items-center justify-center p-4 rounded-xl">
             {/* header*/}
             <View className="flex flex-row items-center w-full mb-4">
                 <View className="flex justify-center items-center flex-row flex-1">
@@ -58,19 +57,15 @@ const VideoCard = ({ video }: VideoProps) => {
                 className="w-full h-[80%] rounded-xl flex justify-center items-center"
             >
                 <Image
-                    source={require("../assets/images/react-logo.png")}
+                    source={{ uri: video.thumbnail || video.videoUri }}
                     className="w-full h-full rounded-xl border-2 border-white"
                     resizeMode="cover"
                 />
-                {/* <View className="absolute inset-0 items-center justify-center">
-                    <View className="w-16 h-16 rounded-full  items-center justify-center">
-                        <MaterialCommunityIcons
-                            name="open-in-new"
-                            size={30}
-                            color="white"
-                        />
+                <View className="absolute inset-0 items-center justify-center">
+                    <View className="w-16 h-16 rounded-full bg-black/50 items-center justify-center">
+                        <FontAwesome name="play" size={30} color="white" />
                     </View>
-                </View> */}
+                </View>
             </TouchableOpacity>
         </View>
     );
