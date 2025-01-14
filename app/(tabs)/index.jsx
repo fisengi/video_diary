@@ -13,7 +13,7 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import VideoCard from "../../components/VideoCard";
 import EmptyDiary from "../../components/EmptyDiary";
-
+import { router } from "expo-router";
 const videoData = [
     { id: "1", name: "ilk video", desc: "deneme 1 2", video: "ilk videomuz" },
     { id: "2", name: "ilk video", desc: "deneme 1 2", video: "ilk videomuz" },
@@ -38,7 +38,10 @@ const Home = () => {
                         </Text>
                     </View>
                     <View className="my-4 px-3">
-                        <TouchableOpacity className="flex-row rounded-xl bg-yellow-500 justify-center items-center px-3 py-3 shadow-md gap-2">
+                        <TouchableOpacity
+                            onPress={() => router.push("/upload-video")}
+                            className="flex-row rounded-xl bg-yellow-500 justify-center items-center px-3 py-3 shadow-md gap-2"
+                        >
                             <FontAwesome name="plus" size={12} />
                             <Text className="text-sm font-semibold">
                                 Add New Memory
