@@ -5,6 +5,7 @@ import {
     ScrollView,
     TouchableOpacity,
     FlatList,
+    Dimensions,
 } from "react-native";
 import React from "react";
 import { Colors } from "../../constants/Colors";
@@ -20,6 +21,8 @@ const videoData = [
     { id: "4", name: "ilk video", desc: "deneme 1 2", video: "ilk videomuz" },
     { id: "5", name: "ilk video", desc: "deneme 1 2", video: "ilk videomuz" },
 ];
+
+const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const Home = () => {
     return (
@@ -43,7 +46,7 @@ const Home = () => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View className="w-full h-[90%] border-2 border-white">
+                <View className="w-full h-[90%]">
                     <FlatList
                         data={videoData}
                         renderItem={({ item }) => <VideoCard video={item} />}

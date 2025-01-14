@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { ResizeMode, Video } from "expo-av";
 import { View, Text, TouchableOpacity, Image } from "react-native";
+import { router } from "expo-router";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 interface VideoProps {
     video: {
@@ -15,7 +18,7 @@ const VideoCard = ({ video }: VideoProps) => {
     const [play, setPlay] = useState(false);
 
     return (
-        <View className="w-full h-[500px] flex flex-col items-center justify-center p-4 border-2 border-red-900 rounded-xl">
+        <View className="w-full h-[500px] flex flex-col items-center justify-center p-4  rounded-xl">
             {/* header*/}
             <View className="flex flex-row items-center w-full mb-4">
                 <View className="flex justify-center items-center flex-row flex-1">
@@ -51,8 +54,7 @@ const VideoCard = ({ video }: VideoProps) => {
             </View>
 
             <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => setPlay(true)}
+                onPress={() => router.push(`/video/${video.id}`)}
                 className="w-full h-[80%] rounded-xl flex justify-center items-center"
             >
                 <Image
@@ -60,6 +62,15 @@ const VideoCard = ({ video }: VideoProps) => {
                     className="w-full h-full rounded-xl border-2 border-white"
                     resizeMode="cover"
                 />
+                {/* <View className="absolute inset-0 items-center justify-center">
+                    <View className="w-16 h-16 rounded-full  items-center justify-center">
+                        <MaterialCommunityIcons
+                            name="open-in-new"
+                            size={30}
+                            color="white"
+                        />
+                    </View>
+                </View> */}
             </TouchableOpacity>
         </View>
     );
