@@ -16,7 +16,7 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const VideoDetails = () => {
     const { id } = useLocalSearchParams();
-    const { getVideoById } = useVideoStore();
+    const { getVideoById, deleteVideo } = useVideoStore();
     const videoDetails = getVideoById(id as string);
 
     if (!videoDetails) {
@@ -32,10 +32,18 @@ const VideoDetails = () => {
                 >
                     <FontAwesome name="arrow-left" size={20} color="white" />
                 </TouchableOpacity>
-                <Text className="text-white text-xl font-bold">
+                {/* <Text className="text-white text-xl font-bold">
                     {videoDetails.date}
-                </Text>
-                <TouchableOpacity onPress={() => {}} className="justify-center">
+                </Text> */}
+                <TouchableOpacity
+                    onPress={() => {
+                        // todo: add delete confirmation and edit video functionality
+                        deleteVideo(videoDetails.id);
+                        router.back();
+                        console.log("deleted");
+                    }}
+                    className="justify-center"
+                >
                     <FontAwesome name="edit" size={25} color="white" />
                 </TouchableOpacity>
             </View>

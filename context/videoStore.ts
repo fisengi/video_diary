@@ -17,6 +17,7 @@ interface VideoStore {
     addVideo: (video: Omit<VideoData, "id" | "date" | "thumbnail">) => void;
     updateVideo: (id: string, data: Partial<VideoData>) => void;
     getVideoById: (id: string) => VideoData | undefined;
+    deleteVideo: (id: string) => void;
 }
 
 const generateUniqueId = () => {
@@ -55,6 +56,10 @@ const useVideoStore = create(
                     ),
                 })),
             getVideoById: (id) => get().videos.find((video) => video.id === id),
+            deleteVideo: (id) =>
+                set((state) => ({
+                    videos: state.videos.filter((video) => video.id !== id),
+                })),
         }),
         {
             name: "video-store",
