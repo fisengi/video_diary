@@ -20,6 +20,8 @@ const { height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const Home = () => {
     const { videos } = useVideoStore();
+    console.log(videos);
+
     return (
         <SafeAreaProvider>
             <SafeAreaView className="bg-dark-background h-full">

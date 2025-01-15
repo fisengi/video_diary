@@ -2,7 +2,9 @@ import { Stack, SplashScreen } from "expo-router";
 import "../global.css";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+const queryClient = new QueryClient();
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -24,9 +26,14 @@ export default function RootLayout() {
         return null;
     }
     return (
-        <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="video/[id]" options={{ headerShown: false }} />
-        </Stack>
+        <QueryClientProvider client={queryClient}>
+            <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                <Stack.Screen
+                    name="video/[id]"
+                    options={{ headerShown: false }}
+                />
+            </Stack>
+        </QueryClientProvider>
     );
 }

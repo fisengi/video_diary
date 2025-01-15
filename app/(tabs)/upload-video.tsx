@@ -12,7 +12,6 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { router } from "expo-router";
 import FormField from "@/components/FormField";
 import useVideoStore from "@/context/videoStore";
-// import DateTimePicker from "@react-native-community/datetimepicker";
 import Steps from "@/components/Steps";
 import * as ImagePicker from "expo-image-picker";
 import { Video, ResizeMode } from "expo-av";
@@ -20,6 +19,8 @@ import { Video, ResizeMode } from "expo-av";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+import VideoCropStep from "@/components/VideoCropStep";
 
 const schema = z.object({
     name: z
@@ -32,7 +33,7 @@ const schema = z.object({
         .trim()
         .nonempty({ message: "Do not forget to describe your memory!" })
         .min(1, { message: "Do not forget to describe your memory!" }),
-    date: z.date(),
+
     videoUri: z.string({
         required_error: "Please select a video first!",
     }),
@@ -44,6 +45,7 @@ const UploadVideo = () => {
     const [step, setStep] = useState<number>(1);
     const [isLoading, setIsLoading] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
+    const [videoDuration, setVideoDuration] = useState(0);
 
     const { addVideo } = useVideoStore();
 
@@ -58,7 +60,6 @@ const UploadVideo = () => {
         defaultValues: {
             name: "",
             desc: "",
-            date: undefined,
             videoUri: undefined,
         },
     });
@@ -88,6 +89,19 @@ const UploadVideo = () => {
 
             if (!result.canceled) {
                 setValue("videoUri", result.assets[0].uri);
+                if (result.assets[0].duration) {
+                    setVideoDuration(result.assets[0].duration / 1000);
+                    console.log(result.assets[0].duration / 1000);
+                    console.log("parla");
+                    console.log(
+                        parseFloat(
+                            (result.assets[0].duration / 1000).toFixed(2)
+                        )
+                    );
+                    console.log("parla2");
+                } else {
+                    console.log("parla2");
+                }
             }
         } catch (error) {
             console.error("Error picking video:", error);
@@ -98,10 +112,14 @@ const UploadVideo = () => {
     };
 
     const onSubmit = async (data: FormData) => {
+        console.log("SELAMLAR");
         try {
+            console.log("ON SUBMİT CONTROL");
             setIsLoading(true);
 
-            addVideo(data);
+            console.log(data);
+
+            await addVideo(data);
 
             Alert.alert("Success", "Memory uploaded successfully!", [
                 {
@@ -115,6 +133,11 @@ const UploadVideo = () => {
         } finally {
             setIsLoading(false);
         }
+    };
+
+    const handleCropComplete = (croppedUri: string) => {
+        setValue("videoUri", croppedUri);
+        setStep(3);
     };
 
     const renderStep1 = () => (
@@ -182,18 +205,18 @@ const UploadVideo = () => {
             )}
         </View>
     );
-    const renderStep2 = () => (
-        <View className="flex-1 h-full w-full px-4">
-            <Text>Step 2</Text>
-
-            <TouchableOpacity
-                onPress={() => setStep(3)}
-                className="rounded-xl bg-yellow-500 justify-center items-center my-5 w-full min-h-[50px]"
-            >
-                <Text className="text-m font-semibold">Next</Text>
-            </TouchableOpacity>
-        </View>
-    );
+    const renderStep2 = () => {
+        console.log(videoUri);
+        return (
+            <View className="flex-1 h-full w-full px-4">
+                <VideoCropStep
+                    videoUri={videoUri}
+                    onProceed={handleCropComplete}
+                    videoDuration={videoDuration}
+                />
+            </View>
+        );
+    };
 
     const renderStep3 = () => (
         <View className="flex-1 h-full w-full px-4">
@@ -236,6 +259,16 @@ const UploadVideo = () => {
                     {errors.desc.message}
                 </Text>
             )}
+
+            <View className="w-full h-[200px] rounded-xl overflow-hidden mt-5">
+                <Video
+                    source={{ uri: videoUri }}
+                    style={{ flex: 1 }}
+                    useNativeControls
+                    resizeMode={ResizeMode.CONTAIN}
+                    shouldPlay={false}
+                />
+            </View>
 
             <TouchableOpacity
                 onPress={handleSubmit(onSubmit)}
