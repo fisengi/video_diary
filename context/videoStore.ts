@@ -8,7 +8,6 @@ interface VideoData {
     desc: string;
     videoUri: string;
     date: string;
-    // thumbnail: string;
 }
 
 interface VideoStore {
@@ -27,7 +26,7 @@ const useVideoStore = create(
     persist<VideoStore>(
         (set, get) => ({
             videos: [],
-            addVideo: async (videoData) => {
+            addVideo: (videoData) => {
                 set((state) => ({
                     videos: [
                         ...state.videos,
@@ -35,7 +34,6 @@ const useVideoStore = create(
                             ...videoData,
                             id: generateUniqueId(),
                             date: new Date().toISOString(),
-                            // thumbnail,
                         },
                     ],
                 }));

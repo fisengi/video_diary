@@ -11,11 +11,31 @@ interface VideoProps {
         desc: string;
         videoUri: string;
         date?: string;
-        thumbnail: string;
     };
 }
 
 const VideoCard = ({ video }: VideoProps) => {
+    const [thumbnailUri, setThumbnailUri] = useState<string | null>(null);
+
+    useEffect(() => {
+        generateThumbnail();
+    }, [video.videoUri]);
+
+    const generateThumbnail = async () => {
+        try {
+            const { uri } = await VideoThumbnails.getThumbnailAsync(
+                video.videoUri,
+                {
+                    time: 0,
+                    quality: 0.5,
+                }
+            );
+            setThumbnailUri(uri);
+        } catch (e) {
+            console.warn("Thumbnail generation failed:", e);
+        }
+    };
+
     return (
         <View className="w-full h-[500px] flex flex-col items-center justify-center p-4 rounded-xl">
             {/* header*/}
@@ -54,13 +74,21 @@ const VideoCard = ({ video }: VideoProps) => {
 
             <TouchableOpacity
                 onPress={() => router.push(`/video/${video.id}`)}
-                className="w-full h-[80%] rounded-xl flex justify-center items-center"
+                className="w-full h-[80%] rounded-xl flex justify-center items-center border-2 border-yellow-500/55"
             >
-                <Image
-                    source={{ uri: video.thumbnail || video.videoUri }}
-                    className="w-full h-full rounded-xl border-2 border-white"
-                    resizeMode="cover"
-                />
+                {thumbnailUri ? (
+                    <Image
+                        source={{ uri: thumbnailUri }}
+                        className="w-full h-full rounded-xl"
+                        resizeMode="cover"
+                    />
+                ) : (
+                    <View className="w-full h-full rounded-xl bg-secondary/20 items-center justify-center">
+                        <Text className="text-white text-lg font-bold">
+                            No Thumbnail
+                        </Text>
+                    </View>
+                )}
                 <View className="absolute inset-0 items-center justify-center">
                     <View className="w-16 h-16 rounded-full bg-black/50 items-center justify-center">
                         <FontAwesome name="play" size={30} color="white" />

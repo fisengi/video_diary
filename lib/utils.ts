@@ -16,7 +16,7 @@ const cropVideo = async ({
 
     const outputUri = `${baseUri}_cropped${fileExtension}`;
 
-    const command = `-i ${videoUri} -ss ${startTime} -to ${
+    const command = `-ss ${startTime} -i ${videoUri} -to ${
         startTime + 5
     } -c copy ${outputUri}`;
 
