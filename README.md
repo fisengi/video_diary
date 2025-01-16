@@ -1,3 +1,6 @@
+
+![videodiary](https://github.com/user-attachments/assets/1ac3ba24-7704-4b4a-8520-236e592fab0c)
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
