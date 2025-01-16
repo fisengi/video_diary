@@ -1,6 +1,6 @@
 import { FFmpegKit, ReturnCode } from "ffmpeg-kit-react-native";
 import { useMutation } from "@tanstack/react-query";
-import * as VideoThumbnails from "expo-video-thumbnails";
+
 interface CropVideoParams {
     videoUri: string;
     startTime: number;

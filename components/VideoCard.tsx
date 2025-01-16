@@ -69,6 +69,7 @@ const VideoCard = ({ video }: VideoProps) => {
                         </Text>
                     </View>
                 )}
+
                 <View className="absolute inset-0 items-center justify-center">
                     <View className="w-16 h-16 rounded-full bg-black/50 items-center justify-center">
                         <FontAwesome name="play" size={30} color="white" />

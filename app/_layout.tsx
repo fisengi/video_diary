@@ -8,7 +8,6 @@ const queryClient = new QueryClient();
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-    //YENİ FONTLAR EKLENCEK
     const [loaded, error] = useFonts({
         SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
         AmaticRegular: require("../assets/fonts/AmaticSC-Regular.ttf"),

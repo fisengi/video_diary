@@ -1,14 +1,14 @@
 import { Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import empty from "../assets/images/empty.png";
+
 import { router } from "expo-router";
 
 const EmptyDiary = () => {
     return (
         <View className="flex items-center justify-center">
             <Image
-                source={empty}
+                source={require("../assets/images/empty.png")}
                 resizeMode="contain"
                 className="w-[300px] h-[300px]"
             />

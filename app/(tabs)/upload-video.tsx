@@ -94,16 +94,6 @@ const UploadVideo = () => {
                 setValue("videoUri", result.assets[0].uri);
                 if (result.assets[0].duration) {
                     setVideoDuration(result.assets[0].duration / 1000);
-                    console.log(result.assets[0].duration / 1000);
-                    console.log("parla");
-                    console.log(
-                        parseFloat(
-                            (result.assets[0].duration / 1000).toFixed(2)
-                        )
-                    );
-                    console.log("parla2");
-                } else {
-                    console.log("parla2");
                 }
             }
         } catch (error) {
@@ -115,13 +105,11 @@ const UploadVideo = () => {
     };
 
     const onSubmit = async (data: FormData) => {
-        console.log("SELAMLAR");
         try {
             console.log("ON SUBMİT CONTROL");
             setIsLoading(true);
 
             console.log(data);
-
             await addVideo(data);
 
             Alert.alert("Success", "Memory uploaded successfully!", [

@@ -16,8 +16,6 @@ import EmptyDiary from "../../components/EmptyDiary";
 import { router } from "expo-router";
 import useVideoStore from "@/context/videoStore";
 
-const { height: SCREEN_HEIGHT } = Dimensions.get("window");
-
 const Home = () => {
     const { videos } = useVideoStore();
     console.log(videos);
