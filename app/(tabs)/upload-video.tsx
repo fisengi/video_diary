@@ -5,6 +5,9 @@ import {
     Image,
     Alert,
     ActivityIndicator,
+    KeyboardAvoidingView,
+    ScrollView,
+    Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -219,78 +222,87 @@ const UploadVideo = () => {
     };
 
     const renderStep3 = () => (
-        <View className="flex-1 h-full w-full px-4">
-            <Controller
-                control={control}
-                name="name"
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <FormField
-                        title="Name"
-                        value={value}
-                        placeholder="Name of the video"
-                        handleChangeText={onChange}
-                        onBlur={onBlur}
-                        otherStyles="mt-5"
-                    />
-                )}
-            />
-            {errors.name?.message && (
-                <Text className="text-red-500 text-sm mt-1">
-                    {errors.name.message}
-                </Text>
-            )}
-
-            <Controller
-                control={control}
-                name="desc"
-                render={({ field: { onChange, onBlur, value } }) => (
-                    <FormField
-                        title="Description"
-                        value={value}
-                        placeholder="Description of the video"
-                        handleChangeText={onChange}
-                        onBlur={onBlur}
-                        otherStyles="mt-5"
-                    />
-                )}
-            />
-            {errors.desc?.message && (
-                <Text className="text-red-500 text-sm mt-1">
-                    {errors.desc.message}
-                </Text>
-            )}
-
-            <View className="w-full h-[200px] rounded-xl overflow-hidden mt-5">
-                <Video
-                    source={{ uri: videoUri }}
-                    style={{ flex: 1 }}
-                    useNativeControls
-                    resizeMode={ResizeMode.CONTAIN}
-                    shouldPlay={false}
-                />
-            </View>
-
-            <TouchableOpacity
-                onPress={handleSubmit(onSubmit)}
-                disabled={isLoading}
-                className={`rounded-xl bg-yellow-500 justify-center items-center my-5 w-full min-h-[50px] flex-row ${
-                    isLoading ? "opacity-70" : ""
-                }`}
+        <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            className="flex-1"
+        >
+            <ScrollView
+                className="flex-1 h-full w-full px-4"
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
             >
-                {isLoading ? (
-                    <>
-                        <ActivityIndicator color="black" />
-                        <Text className="text-m font-semibold ml-2">
-                            Uploading...
-                        </Text>
-                    </>
-                ) : (
-                    <Text className="text-m font-semibold">
-                        Upload Your Memory
+                <Controller
+                    control={control}
+                    name="name"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <FormField
+                            title="Name"
+                            value={value}
+                            placeholder="Name of the video"
+                            handleChangeText={onChange}
+                            onBlur={onBlur}
+                            otherStyles="mt-5"
+                        />
+                    )}
+                />
+                {errors.name?.message && (
+                    <Text className="text-red-500 text-sm mt-1">
+                        {errors.name.message}
                     </Text>
                 )}
-            </TouchableOpacity>
-        </View>
+
+                <Controller
+                    control={control}
+                    name="desc"
+                    render={({ field: { onChange, onBlur, value } }) => (
+                        <FormField
+                            title="Description"
+                            value={value}
+                            placeholder="Description of the video"
+                            handleChangeText={onChange}
+                            onBlur={onBlur}
+                            otherStyles="mt-5"
+                        />
+                    )}
+                />
+                {errors.desc?.message && (
+                    <Text className="text-red-500 text-sm mt-1">
+                        {errors.desc.message}
+                    </Text>
+                )}
+
+                <View className="w-full h-[200px] rounded-xl overflow-hidden mt-5">
+                    <Video
+                        source={{ uri: videoUri }}
+                        style={{ flex: 1 }}
+                        useNativeControls
+                        resizeMode={ResizeMode.CONTAIN}
+                        shouldPlay={false}
+                    />
+                </View>
+
+                <TouchableOpacity
+                    onPress={handleSubmit(onSubmit)}
+                    disabled={isLoading}
+                    className={`rounded-xl bg-yellow-500 justify-center items-center my-5 w-full min-h-[50px] flex-row mb-10 ${
+                        isLoading ? "opacity-70" : ""
+                    }`}
+                >
+                    {isLoading ? (
+                        <>
+                            <ActivityIndicator color="black" />
+                            <Text className="text-m font-semibold ml-2">
+                                Uploading...
+                            </Text>
+                        </>
+                    ) : (
+                        <Text className="text-m font-semibold">
+                            Upload Your Memory
+                        </Text>
+                    )}
+                </TouchableOpacity>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 
     return (
